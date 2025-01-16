@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookManager.Migrations
 {
     [DbContext(typeof(BookManagerContext))]
-    [Migration("20250111194805_InitialMigration")]
+    [Migration("20250116195205_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -315,7 +315,7 @@ namespace BookManager.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ValideFrom")
+                    b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -333,7 +333,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 1.3m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2020, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2020, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -343,7 +343,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 13m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2020, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2020, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -353,7 +353,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 20m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2021, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2021, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -363,7 +363,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 12m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2021, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2021, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -373,7 +373,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 60m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2023, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -383,7 +383,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 62m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2024, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2024, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -393,7 +393,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 65m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2024, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2024, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -403,7 +403,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 70m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -413,7 +413,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 62m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2021, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2021, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -423,7 +423,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 40m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2022, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
@@ -433,7 +433,7 @@ namespace BookManager.Migrations
                             IsActive = true,
                             Price = 90m,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ValideFrom = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -652,17 +652,21 @@ namespace BookManager.Migrations
 
             modelBuilder.Entity("BookCategory", b =>
                 {
-                    b.HasOne("Book", null)
+                    b.HasOne("Book", "Book")
                         .WithMany("BookCategories")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Category", null)
+                    b.HasOne("Category", "Category")
                         .WithMany("BookCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("BookPrice", b =>

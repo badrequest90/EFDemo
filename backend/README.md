@@ -83,6 +83,7 @@ Execute the following command to run the tests:
 - [X] Use Include/ThenInclude instead of multiple queries on BooksCategories and others
 - [X] Update all references of Set<T> for the right context sets
 - [ ] Finish order controller/service
+- [ ] Exceptions handling
 - [ ] Add tests for controllers and services
 - [X] Add pagination
 - [ ] Add testing for pagination

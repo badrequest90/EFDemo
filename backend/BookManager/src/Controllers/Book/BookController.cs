@@ -57,4 +57,23 @@ public class BookController : ControllerBase
          
         return CreatedAtAction(nameof(GetOneById), new { id = entity.Id }, entity); 
     }
+    
+
+    [HttpPut("{id}/BookPrices/{priceId}")]
+    public async Task<IActionResult> UpdateBookPrice(Guid priceId, [FromBody] CreateBookPriceDTO model)
+    {
+        var success = await _bookService.UpdateBookPriceAsync(model, priceId);
+        if (!success) return NotFound();
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}/BookPrices/{priceId}")]
+    public async Task<IActionResult> DeleteBookPrice(Guid priceId)
+    {
+        var success = await _bookService.DeletePriceBookAsync(priceId);
+        if (!success) return NotFound();
+
+        return NoContent();
+    }
 }

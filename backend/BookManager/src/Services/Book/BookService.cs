@@ -33,7 +33,7 @@ public class BookService : IBookService
                 {
                     Id = bc.Id,
                     Price = bc.Price,
-                    ValideFrom = bc.ValidFrom
+                    ValidFrom = bc.ValidFrom
                 }).ToList(),
                 PublishedAt = b.PublishedAt,
                 Stock = b.Stock,
@@ -65,7 +65,7 @@ public class BookService : IBookService
                 {
                     Id = bc.Id,
                     Price = bc.Price,
-                    ValideFrom = bc.ValidFrom
+                    ValidFrom = bc.ValidFrom
                 }).ToList(),
                 PublishedAt = b.PublishedAt,
                 Stock = b.Stock,
@@ -86,7 +86,7 @@ public class BookService : IBookService
             BookPrices = entity.BookPrices.Select(price => 
                 new BookPrice{
                     Price = price.Price,
-                    ValidFrom = price.ValideFrom
+                    ValidFrom = price.ValidFrom
                 }
             ).ToList(),
             BookCategories = entity.BookCategories.Select(cat => 
@@ -117,7 +117,7 @@ public class BookService : IBookService
         existingEntity.BookPrices = entity.BookPrices.Select(price => new BookPrice
         {
             Price = price.Price,
-            ValidFrom = price.ValideFrom
+            ValidFrom = price.ValidFrom
         }).ToList();
         existingEntity.BookCategories = entity.BookCategories.Select(cat => 
             new BookCategory{
@@ -147,7 +147,7 @@ public class BookService : IBookService
         {
             BookId = bookId,
             Price = entity.Price,
-            ValidFrom = entity.ValideFrom
+            ValidFrom = entity.ValidFrom
         };
 
         var book = await _context.Books.Include(x => x.BookPrices).Where(x => x.Id == bookId).FirstOrDefaultAsync();
@@ -156,5 +156,29 @@ public class BookService : IBookService
         await _context.SaveChangesAsync();
 
         return book;
+    }
+
+    public async Task<bool> UpdateBookPriceAsync(CreateBookPriceDTO entity, Guid id)
+    {
+        
+        var existingEntity = await _context.BookPrices.FindAsync(id);
+        if (existingEntity == null || !existingEntity.IsActive) return false;
+
+        existingEntity.ValidFrom = entity.ValidFrom;
+        existingEntity.Price = entity.Price;
+
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeletePriceBookAsync(Guid id)
+    {
+        var entity = await _context.BookPrices.FindAsync(id);
+        if (entity == null || !entity.IsActive) return false;
+
+        entity.IsActive = false;
+
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

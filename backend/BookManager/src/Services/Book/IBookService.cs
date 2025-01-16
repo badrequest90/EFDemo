@@ -4,5 +4,7 @@ public interface IBookService {
     Task<Book> AddAsync(CreateBookDTO entity);
     Task<Book> AddBookPriceAsync(CreateBookPriceDTO entity, Guid bookId);
     Task<bool> UpdateAsync(CreateBookDTO entity, Guid id);
+    Task<bool> UpdateBookPriceAsync(CreateBookPriceDTO entity, Guid id);
     Task<bool> DeleteAsync(Guid id);
+    Task<bool> DeletePriceBookAsync(Guid id);
 }

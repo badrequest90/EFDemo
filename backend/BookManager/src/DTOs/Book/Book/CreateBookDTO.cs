@@ -1,11 +1,11 @@
 public class CreateBookDTO()
 {
-    public string Title { get; set; }
-    public Guid AuthorId { get; set; }
-    public string Description { get; set; }
-    public string CoverImageUrl { get; set; }
-    public DateTime PublishedAt { get; set; }
-    public int Stock { get; set; }
-    public List<Guid> BookCategories { get; set; }
-    public List<CreateBookPriceDTO> BookPrices { get; set; }
+    public string Title { get; init; }
+    public Guid AuthorId { get; init; }
+    public string Description { get; init; }
+    public string CoverImageUrl { get; init; }
+    public DateTime PublishedAt { get; init; }
+    public int Stock { get; init; }
+    public List<Guid> BookCategories { get; init; }
+    public List<CreateBookPriceDTO> BookPrices { get; init; }
 }

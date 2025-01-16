@@ -165,7 +165,7 @@ namespace BookManager.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ValideFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -266,7 +266,7 @@ namespace BookManager.Migrations
 
             migrationBuilder.InsertData(
                 table: "BookPrices",
-                columns: new[] { "Id", "BookId", "CreatedAt", "IsActive", "Price", "UpdatedAt", "ValideFrom" },
+                columns: new[] { "Id", "BookId", "CreatedAt", "IsActive", "Price", "UpdatedAt", "ValidFrom" },
                 values: new object[,]
                 {
                     { new Guid("15201511-cf0a-49c3-b1ed-e5d77a738884"), new Guid("460fb0d4-289c-43d9-8055-1fbcf992dcb3"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 70m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },

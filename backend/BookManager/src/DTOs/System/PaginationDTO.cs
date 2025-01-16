@@ -1,5 +1,5 @@
 public class PaginationRequestDTO
 {
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
+    public int PageNumber { get; init; } = 1;
+    public int PageSize { get; init; } = 10;
 }

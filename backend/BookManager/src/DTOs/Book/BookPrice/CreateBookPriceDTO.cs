@@ -1,5 +1,5 @@
 public class CreateBookPriceDTO()
 {
-    public DateTime ValideFrom { get; set; }
-    public decimal Price { get; set; }
+    public DateTime ValidFrom { get; init; }
+    public decimal Price { get; init; }
 }

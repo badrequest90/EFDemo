@@ -1,9 +1,9 @@
 public class DetailsCategoryDTO : CreateCategoryDTO{
-    public Guid Id {get;set;}
-    public List<DetailsBooksCategoryDTO> Books {get;set;}
+    public Guid Id {get;init;}
+    public List<DetailsBooksCategoryDTO> Books {get;init;}
 }
 
 public class DetailsBooksCategoryDTO{
-    public Guid Id {get;set;}
-    public string Title {get;set;}
+    public Guid Id {get;init;}
+    public string Title {get;init;}
 }
