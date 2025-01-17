@@ -1,8 +1,11 @@
 public interface IOrderService
 {
-    Task<IEnumerable<Order>> GetAllAsync();
-    Task<Order> GetByIdAsync(Guid id);
-    Task AddAsync(OrderRequest entity);
-    Task<bool> UpdateAsync(OrderRequest entity);
+    Task<PaginatedResponse<DetailsOrderDTO>> GetAllAsync(PaginationRequestDTO request);
+    Task<DetailsOrderDTO> GetByIdAsync(Guid id);
+    Task<Order> AddAsync(CreateOrderDTO entity);
+    Task<bool> UpdateAsync(CreateOrderDTO entity, Guid id);
     Task<bool> DeleteAsync(Guid id);
+    Task AddOrderItemAsync(CreateOrderItemDTO entity, Guid id);
+    Task<bool> UpdateOrderItemAsync(CreateOrderItemDTO entity, Guid id);
+    Task<bool> DeleteOrderItemAsync(Guid id);
 }

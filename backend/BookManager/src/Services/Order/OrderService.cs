@@ -11,84 +11,98 @@ public class OrderService : IOrderService
         _context = context;
     }
 
-    public async Task AddAsync(OrderRequest entity)
-    {
-        Order order = new Order();
+    public async Task<Order> AddAsync(CreateOrderDTO entity)
+    {   
+        var bookIds = entity.OrderItems.Select(oi => oi.BookId).ToList();
 
-        order.OrderDate = DateTime.Now;
-        order.OrderItems = new List<OrderItem>();
-        order.OrderStatus = OrderStatus.Pending;
+        var bookPriceDict = await _context.BookPrices
+            .Where(bp => bp.ValidFrom <= DateTime.Now && bookIds.Contains(bp.BookId))
+            .OrderByDescending(bp => bp.ValidFrom)
+            .GroupBy(bp => bp.BookId)
+            .ToDictionaryAsync(g => g.Key, g => g.FirstOrDefault());
 
-        List<Book> books = await _context.Books.Include(b => b.BookPrices).Where(b => b.IsActive && entity.Books.Select(x => x.BookId).Contains(b.Id)).ToListAsync();
+        var books = await _context.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();
 
-        List<string> err = new List<string>();
-        foreach (Book book in books)
+        foreach (var book in books)
         {
-            var eBook = entity.Books.Where(x => x.BookId == book.Id).FirstOrDefault();
-            if (book.Stock < eBook.quantity)
+            var orderQuantity = entity.OrderItems.First(x => x.BookId == book.Id).quantity;
+            if (book.Stock < orderQuantity)
             {
-                err.Add("Book '" + book.Title + "' has no stock (only " + book.Stock + " available)");
+                throw new InvalidOperationException($"Insufficient stock for book: {book.Title}");
             }
-            else
-            {
-                order.OrderItems.Add(new OrderItem()
-                {
-                    BookId = book.Id,
-                    ItemPrice = book.BookPrices.OrderByDescending(x => x.ValidFrom).FirstOrDefault().Price,
-                    Quantity = eBook.quantity
-                });
+            book.Stock -= orderQuantity;
+        }
 
-                book.Stock -= eBook.quantity;
-            }
-        }
-        if (err.Count > 0)
+        var order = new Order
         {
-            throw new Exception(string.Join("\n", err));
-        }
-        else
+            CustomerId = Guid.NewGuid(),
+            OrderDate = DateTime.Now,
+            OrderItems = entity.OrderItems.Select(o => new OrderItem
+            {
+                BookId = o.BookId,
+                ItemPrice = bookPriceDict.TryGetValue(o.BookId, out var price) ? price.Price : 0,
+                Quantity = o.quantity
+            }).ToList()
+        };
+
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
         {
-            order.TotalPrice = order.OrderItems.Sum(item => item.Quantity * item.ItemPrice);
-            
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
         }
-    }
-
-    public async Task<bool> DeleteAsync(Guid id)
-    {
-        Order order = _context.Orders.Include(o => o.OrderItems).FirstOrDefault(x => x.Id == id && x.IsActive == true);
-
-        if (order == null)
+        catch
         {
-            throw new ArgumentException("Order not found.");
+            await transaction.RollbackAsync();
+            throw;
         }
 
-        order.IsActive = false;
-        order.UpdatedAt = DateTime.UtcNow;
-
-        foreach (var item in order.OrderItems)
-        {
-            item.IsActive = false;
-        }
-
-        await _context.SaveChangesAsync();
-
-        return true;
+        return order;
     }
 
-    public async Task<IEnumerable<Order>> GetAllAsync()
-    {
-        return await _context.Orders.Where(x => x.IsActive).ToListAsync();
-    }
-
-    public async Task<Order> GetByIdAsync(Guid id)
-    {
-        return await _context.Orders.Where(x => x.IsActive && x.Id == id).FirstOrDefaultAsync();
-    }
-
-    public Task<bool> UpdateAsync(OrderRequest entity)
+    public Task AddOrderItemAsync(CreateOrderItemDTO entity, Guid id)
     {
         throw new NotImplementedException();
     }
 
+    public Task<bool> DeleteAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteOrderItemAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<PaginatedResponse<DetailsOrderDTO>> GetAllAsync(PaginationRequestDTO request)
+    {
+        return await _context.Orders
+                .Include(x => x.OrderItems)
+                .Where(x => x.IsActive == true)
+                .OrderByDescending(x => x.UpdatedAt)
+                .Select(c => new DetailsOrderDTO
+                {
+                    CustomerId = c.CustomerId,
+                    OrderDate = c.OrderDate,
+                    OrderStatus = c.OrderStatus,
+                    TotalPrice = c.TotalPrice
+                }).ToPaginatedResponseAsync(request);
+    }
+
+    public Task<DetailsOrderDTO> GetByIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> UpdateAsync(CreateOrderDTO entity, Guid Id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> UpdateOrderItemAsync(CreateOrderItemDTO entity, Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }

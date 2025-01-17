@@ -11,9 +11,9 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] PaginationRequestDTO request)
     {
-        var results = await _orderService.GetAllAsync();
+        var results = await _orderService.GetAllAsync(request);
         return Ok(results);
     }
 
@@ -27,17 +27,16 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] OrderRequest newOrder)
+    public async Task<IActionResult> Add([FromBody] CreateOrderDTO newOrder)
     {
-        await _orderService.AddAsync(newOrder);
-        return CreatedAtAction(nameof(GetOneById), new { id = newOrder.Id }, newOrder);
+        var entity = await _orderService.AddAsync(newOrder);
+        return CreatedAtAction(nameof(GetOneById), new { id = entity.Id }, newOrder);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] OrderRequest order)
+    public async Task<IActionResult> Update(Guid id, [FromBody] CreateOrderDTO order)
     {
-        order.Id = id; // Ensure the correct ID is used for the update
-        var success = await _orderService.UpdateAsync(order);
+        var success = await _orderService.UpdateAsync(order, id);
         if (!success) return NotFound();
 
         return NoContent();
@@ -51,14 +50,4 @@ public class OrderController : ControllerBase
 
         return NoContent();
     }
-}
-
-public class OrderRequest{
-    public Guid Id {get;set;}
-    public List<OrderRequestItem> Books {get;set;}
-}
-
-public class OrderRequestItem{
-    public Guid BookId {get;set;}
-    public int quantity {get;set;}
 }
