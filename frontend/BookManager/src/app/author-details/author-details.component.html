@@ -1,0 +1,8 @@
+<div *ngIf="author">
+    {{author.name}}
+    <mat-chip-set aria-label="Books">
+        <div *ngFor="let book of author.books">
+            <mat-chip><a routerLink="/book/{{book.id}}">{{book.title}}</a></mat-chip>
+        </div>
+    </mat-chip-set>
+</div>
